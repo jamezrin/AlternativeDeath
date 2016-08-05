@@ -1,5 +1,6 @@
 package me.jaime29010.alternativedeath;
 
+import me.jaime29010.alternativedeath.api.AbstractBodyHelper;
 import me.jaime29010.alternativedeath.listeners.PlayerListener;
 import me.jaime29010.alternativedeath.utils.ConfigurationManager;
 import me.jaime29010.alternativedeath.utils.PluginUtils;
@@ -20,6 +21,8 @@ import java.util.stream.Stream;
 public final class Main extends JavaPlugin {
     private FileConfiguration config = null;
     private ShapedRecipe recipe = null;
+    private String nmsver = null;
+    private AbstractBodyHelper helper = null;
 
     @Override
     public void onEnable() {
@@ -44,6 +47,33 @@ public final class Main extends JavaPlugin {
         collect.forEach((key, ingredient) -> recipe.setIngredient(key, ingredient));
         getServer().addRecipe(recipe);
 
+        //Loading the helper
+        nmsver = getServer().getClass().getPackage().getName().split(".")[3];
+        getLogger().info("Your server is running version " + nmsver);
+        switch (nmsver) {
+            case "v1_8_R3": {
+                helper = new me.jaime29010.alternativedeath.v1_8_R3.BodyHelper();
+                break;
+            }
+            case "v1_9_R1": {
+                helper = new me.jaime29010.alternativedeath.v1_9_R1.BodyHelper();
+                break;
+            }
+            case "v1_9_R2": {
+                helper = new me.jaime29010.alternativedeath.v1_9_R2.BodyHelper();
+                break;
+            }
+            case "v1_10_R1": {
+                helper = new me.jaime29010.alternativedeath.v1_10_R1.BodyHelper();
+                break;
+            }
+            default: {
+                getLogger().info("This version is not supported, the plugin will not work");
+                setEnabled(false);
+                return;
+            }
+        }
+
         //Registering listeners
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
@@ -52,10 +82,16 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
         config = null;
         recipe = null;
+        nmsver = null;
+        helper = null;
     }
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public AbstractBodyHelper getBodyHelper() {
+        return helper;
     }
 
     @Override
