@@ -1,4 +1,4 @@
-package me.jaime29010.alternativedeath.api;
+package me.jaime29010.alternativedeath;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

@@ -2,7 +2,7 @@ package me.jaime29010.alternativedeath.v1_8_R3;
 
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
-import me.jaime29010.alternativedeath.api.AbstractBodyHelper;
+import me.jaime29010.alternativedeath.AbstractBodyHelper;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

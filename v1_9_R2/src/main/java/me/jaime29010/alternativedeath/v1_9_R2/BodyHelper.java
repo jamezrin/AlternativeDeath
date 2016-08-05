@@ -1,6 +1,6 @@
 package me.jaime29010.alternativedeath.v1_9_R2;
 
-import me.jaime29010.alternativedeath.api.AbstractBodyHelper;
+import me.jaime29010.alternativedeath.AbstractBodyHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

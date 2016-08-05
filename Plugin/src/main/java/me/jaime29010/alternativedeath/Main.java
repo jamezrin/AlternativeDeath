@@ -1,6 +1,5 @@
 package me.jaime29010.alternativedeath;
 
-import me.jaime29010.alternativedeath.api.AbstractBodyHelper;
 import me.jaime29010.alternativedeath.listeners.PlayerListener;
 import me.jaime29010.alternativedeath.utils.ConfigurationManager;
 import me.jaime29010.alternativedeath.utils.PluginUtils;
@@ -48,7 +47,8 @@ public final class Main extends JavaPlugin {
         getServer().addRecipe(recipe);
 
         //Loading the helper
-        nmsver = getServer().getClass().getPackage().getName().split(".")[3];
+        nmsver = getServer().getClass().getPackage().getName();
+        nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
         getLogger().info("Your server is running version " + nmsver);
         switch (nmsver) {
             case "v1_8_R3": {
