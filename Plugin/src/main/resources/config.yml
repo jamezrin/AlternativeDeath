@@ -1,0 +1,42 @@
+# The period in which the player can be revived, in seconds
+period: 10
+
+# Extra compatibility layer for other plugins
+plugin-compat: true
+
+# Settings for when the player is nearly dead
+deny-commands: true
+deny-quit: true
+deny-interact: true
+deny-chat: true
+deny-inventory: true
+deny-attack: true
+
+# The amount of health points that a player has to deal to a body in order to be removed
+finish-body: 8
+
+# Settings for the recipe, this is a shaped recipe
+recipe:
+  # This is the shape the recipe should have, each letter indicates a type of item
+  # If the item for a letter is not set in the items section down below, it will be set to AIR
+  shape:
+    - "xxx"
+    - "xyx"
+    - "xxx"
+  # The types of items, the nomenclature can be seen at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+  items:
+    'x': GOLDEN_APPLE
+    'y': DIAMOND
+
+  # The item that is given to a player when he crafts the recipe
+  result:
+    type: BOOK
+    damage: 0
+    amount: 1
+    name: "&cHelp a mate"
+    lore:
+      - "&aUse this to revive someone"
+      - "&aRight click with this on the body of a player"
+# In order to disable a message simply remove the entry or comment it out
+messages:
+  none: "None"
