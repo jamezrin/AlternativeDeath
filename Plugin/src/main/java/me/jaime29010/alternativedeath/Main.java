@@ -96,7 +96,7 @@ public final class Main extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            helper.sendBody(player, player.getLocation());
+            helper.sendBody(player);
         } else {
             sender.sendMessage("This command can only be executed by a player");
         }
