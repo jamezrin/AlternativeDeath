@@ -4,7 +4,10 @@ import me.jaime29010.alternativedeath.listeners.PlayerListener;
 import me.jaime29010.alternativedeath.utils.ConfigurationManager;
 import me.jaime29010.alternativedeath.utils.PluginUtils;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -29,22 +32,25 @@ public final class Main extends JavaPlugin {
         this.getConfig();
 
         //Loading the recipe
-        ItemStack item = new ItemStack(Material.valueOf(config.getString("recipe.result.type")));
-        item.setDurability((short) config.getInt("recipe.result.damage"));
-        item.setAmount(config.getInt("recipe.result.amount"));
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PluginUtils.colorize(config.getString("recipe.result.name")));
-        meta.setLore(config.getStringList("recipe.result.lore").stream().map(PluginUtils::colorize).collect(Collectors.toList()));
-        item.setItemMeta(meta);
+        if (config.getBoolean("recipe.enabled")) {
+            ItemStack item = new ItemStack(Material.valueOf(config.getString("recipe.result.type")));
+            item.setDurability((short) config.getInt("recipe.result.damage"));
+            item.setAmount(config.getInt("recipe.result.amount"));
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(PluginUtils.colorize(config.getString("recipe.result.name")));
+            meta.setLore(config.getStringList("recipe.result.lore").stream().map(PluginUtils::colorize).collect(Collectors.toList()));
+            item.setItemMeta(meta);
 
-        recipe = new ShapedRecipe(item);
-        List<String> shape = config.getStringList("recipe.shape");
-        recipe.shape(shape.get(0), shape.get(1), shape.get(2));
-        Map<String, Object> map = config.getConfigurationSection("recipe.items").getValues(false);
-        Stream<Entry<String, Object>> stream = map.entrySet().stream();
-        Map<Character, Material> collect = stream.collect(Collectors.toMap(entry -> entry.getKey().charAt(0), entry -> Material.valueOf(String.valueOf(entry.getValue()))));
-        collect.forEach((key, ingredient) -> recipe.setIngredient(key, ingredient));
-        getServer().addRecipe(recipe);
+            recipe = new ShapedRecipe(item);
+            List<String> shape = config.getStringList("recipe.shape");
+            recipe.shape(shape.get(0), shape.get(1), shape.get(2));
+            Map<String, Object> map = config.getConfigurationSection("recipe.items").getValues(false);
+            Stream<Entry<String, Object>> stream = map.entrySet().stream();
+            Map<Character, Material> collect = stream.collect(Collectors.toMap(entry -> entry.getKey().charAt(0), entry -> Material.valueOf((String) entry.getValue())));
+            collect.forEach((key, ingredient) -> recipe.setIngredient(key, ingredient));
+            getServer().addRecipe(recipe);
+            getLogger().info("The recipe has been successfully added");
+        }
 
         //Loading the helper
         nmsver = getServer().getClass().getPackage().getName();
@@ -84,6 +90,17 @@ public final class Main extends JavaPlugin {
         recipe = null;
         nmsver = null;
         helper = null;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            helper.sendBody(player, player.getLocation());
+        } else {
+            sender.sendMessage("This command can only be executed by a player");
+        }
+        return true;
     }
 
     public Recipe getRecipe() {

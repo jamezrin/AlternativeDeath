@@ -1,5 +1,8 @@
 # The period in which the player can be revived, in seconds
-period: 10
+period: 360
+
+# The time that has to pass for the body to be removed, in seconds
+cleanup: 420
 
 # Extra compatibility layer for other plugins
 plugin-compat: true
@@ -17,6 +20,9 @@ finish-body: 8
 
 # Settings for the recipe, this is a shaped recipe
 recipe:
+  # If the recipe is disabled then there is no way to revive a player
+  enabled: true
+
   # This is the shape the recipe should have, each letter indicates a type of item
   # If the item for a letter is not set in the items section down below, it will be set to AIR
   shape:
@@ -30,7 +36,7 @@ recipe:
 
   # The item that is given to a player when he crafts the recipe
   result:
-    type: BOOK
+    type: ENCHANTED_BOOK
     damage: 0
     amount: 1
     name: "&cHelp a mate"

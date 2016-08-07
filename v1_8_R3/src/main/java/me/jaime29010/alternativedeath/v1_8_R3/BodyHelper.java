@@ -32,7 +32,7 @@ public class BodyHelper extends AbstractBodyHelper {
         double locY = craftPlayer.getHandle().locY;
 
         DataWatcher watcher = (DataWatcher) cloneDataWatcher(player, entityId);
-        watcher.watch(10, craftPlayer.getHandle().getDataWatcher().getByte(10));
+        watcher.watch(10, handle.getDataWatcher().getByte(10));
 
         GameProfile profile = new GameProfile(craftPlayer.getUniqueId(), craftPlayer.getName());
 
